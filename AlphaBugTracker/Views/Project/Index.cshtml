@@ -1,0 +1,34 @@
+﻿@model IEnumerable<AlphaBugTracker.Models.Project>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New Project</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-controller="Ticket" asp-action="Create" asp-route-id="@item.Id">Create a New Ticket</a>
+                <a asp-controller="User" asp-action="AssignUser" asp-route-id="@item.Id">Assign User</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
