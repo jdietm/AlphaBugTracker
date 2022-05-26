@@ -26,7 +26,7 @@
             </td>
             <td>
                 <a asp-controller="Ticket" asp-action="Create" asp-route-id="@item.Id">Create a New Ticket</a>
-                <a asp-controller="User" asp-action="AssignUser" asp-route-id="@item.Id">Assign User</a>
+                <a asp-controller="ProjectUser" asp-action="Index" asp-route-id="@item.Id">Users</a>
             </td>
         </tr>
 }

@@ -6,7 +6,8 @@ namespace AlphaBugTracker.Models
     {
 
         public int Id { get; set; }
-        public Ticket Ticket;
+        public Ticket Ticket { get; set; }
+
         public string Comment { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public IdentityUser UserCreator { get; set; }   

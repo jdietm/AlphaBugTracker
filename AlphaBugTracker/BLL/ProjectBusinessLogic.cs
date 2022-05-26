@@ -7,14 +7,13 @@ namespace AlphaBugTracker.BLL
     {
         IRepository<Project> repo;
 
-        public ProjectBusinessLogic()
-        {
-
-        }
-
         public ProjectBusinessLogic(IRepository<Project> repoArg)
         {
             repo = repoArg;
+        }
+        public ProjectBusinessLogic()
+        {
+
         }
 
         public List<Project> ListProjects_ByDefault()
@@ -22,13 +21,13 @@ namespace AlphaBugTracker.BLL
             return repo.GetList(t => true).ToList();
         }
 
-        public void AddProject(Project project)
+        public  void AddProject(Project project)
         {
             repo.Create(project);
             repo.Save();
         }
 
-        public Project GetProjectById(Func<Project,bool> funcArg)
+        public virtual Project GetProjectById(Func<Project,bool> funcArg)
         {
             return repo.Get(funcArg);
         }

@@ -6,25 +6,12 @@ namespace AlphaBugTracker.BLL
     public class CommentBusinessLogic
     {
         IRepository<TicketComment> repo;
-        IRepository<Ticket> repoTicket;
-        private CommentRepository commentRepository;
+        
 
-        public CommentBusinessLogic(IRepository<TicketComment> repoArg, IRepository<Ticket> repoArgTicket)
+        public CommentBusinessLogic(IRepository<TicketComment> repoArg)
         {
             repo = repoArg;
-            repoTicket = repoArgTicket;
     }
-
-        public CommentBusinessLogic(CommentRepository commentRepository)
-        {
-            this.commentRepository = commentRepository;
-        }
-
-        public List<TicketComment> ListComments_ByTicketId(int id)
-        {
-            var ticketFound = repoTicket.Get(t => t.Id == id);
-            return repo.GetList(c => c.Ticket == ticketFound).ToList();  
-        }
 
         public TicketComment Get(int id)
         {

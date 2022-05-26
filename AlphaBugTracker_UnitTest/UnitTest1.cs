@@ -16,8 +16,7 @@ namespace AlphaBugTracker_UnitTest
         Func<Project, bool> testFunc; 
 
         [TestMethod]
-        public void AddingATicket()
-        {
+        public void AddingAProject()        {
             
 
             Mock<ProjectRepository> mockRepo = new Mock<ProjectRepository>();

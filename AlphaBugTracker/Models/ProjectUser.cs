@@ -5,7 +5,7 @@ namespace AlphaBugTracker.Models
     public class ProjectUser
     {
         public int Id { get; set; }
-        public Project  Project;
-        public IdentityUser UserMember;
+        public Project  Project { get; set; }
+        public IdentityUser UserMember { get; set; }
     }
 }

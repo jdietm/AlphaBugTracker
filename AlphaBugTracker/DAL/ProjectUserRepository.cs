@@ -4,22 +4,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AlphaBugTracker.DAL
 {
-    public class ProjectRepository : IRepository<Project>
+    public class ProjectUserRepository : IRepository<ProjectUser>
     {
         private readonly ApplicationDbContext _context;
 
-        public ProjectRepository(ApplicationDbContext context)
+        public ProjectUserRepository(ApplicationDbContext context)
         {
             _context = context;
         }
-        public ProjectRepository()
+        public ProjectUserRepository()
         {
 
         }
 
-        public void Create(Project? entity)
+        public void Create(ProjectUser? entity)
         {
-            _context.Project.Add(entity);
+            _context.ProjectUser.Add(entity);
         }
 
         public void Delete(int? id)
@@ -27,25 +27,25 @@ namespace AlphaBugTracker.DAL
             throw new NotImplementedException();
         }
 
-        public virtual Project? Get(Func<Project, bool>? firstFunction)
+        public virtual ProjectUser? Get(Func<ProjectUser, bool>? firstFunction)
         {
-            return _context.Project.First(firstFunction);
+            return _context.ProjectUser.First(firstFunction);
         }
 
-        public Project? GetById(int? id)
+        public ProjectUser? GetById(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public ICollection<Project>? GetList(Func<Project, bool>? whereFunction)
+        public ICollection<ProjectUser>? GetList(Func<ProjectUser, bool>? whereFunction)
         {
-            List<Project> Project = null;
+            List<ProjectUser> ProjectUser = null;
             if (whereFunction != null)
             {
 
-                Project = _context.Project.Where(whereFunction).ToList();
+                ProjectUser = _context.ProjectUser.Where(whereFunction).ToList();
             }
-            return Project;
+            return ProjectUser;
         }
 
         public void Save()

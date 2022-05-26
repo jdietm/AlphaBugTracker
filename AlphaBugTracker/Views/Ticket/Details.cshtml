@@ -54,8 +54,109 @@
         </dd>
     </dl>
 </div>
+<h4> Comments</h4>
+
+@if (@Model.TicketComments.Count()>0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Created
+                </th>
+                <th>
+                    Comment
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comment in Model.TicketComments)
+            {
+            <tr>
+                <td>
+                   @comment.CreatedDate
+                </td>
+                <td>
+                   @comment.Comment
+                </td>
+            </tr>    
+            }
+        </tbody>
+    </table>
+
+} 
+else
+{
+    <h6> This ticket has no comments yet....</h6>
+}
+ <a asp-action="Create"  asp-controller="Comment" asp-route-id="@Model?.Id">Comments</a> |
+ <p></p>
+
+<h4>History</h4>
+
+@if (@Model.TicketHistories.Count()>0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Updated
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Priority
+                </th>
+                <th>
+                    Status
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var h in Model.TicketHistories)
+            {
+                <tr>
+                    <td>
+                       @h.UpdatedDate
+                    </td>
+                    <td>
+                       @h.Title
+                    </td>
+                    <td>
+                       @h.Description
+                    </td>
+                    <td>
+                       @h.TicketTypeId
+                    </td>
+                    <td>
+                       @h.TicketPriorityId
+                    </td>
+                    <td>
+                       @h.TicketStatusId
+                    </td>
+                </tr>    
+              }
+        </tbody>
+    </table>
+} 
+else
+{
+    <h6> This ticket has no changes....</h6>
+}
+
+
+
+
 <div>
-    <a asp-action="Edit"   asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index"  asp-controller="Comment" asp-route-id="@Model?.Id">Comments</a> |
+   
     <a asp-action="Index">Back to List</a>
 </div>

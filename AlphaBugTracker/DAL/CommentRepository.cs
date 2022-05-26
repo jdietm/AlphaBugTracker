@@ -28,6 +28,11 @@ namespace AlphaBugTracker.DAL
             throw new NotImplementedException();
         }
 
+        public TicketComment? GetById(int? id)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICollection<TicketComment>? GetList(Func<TicketComment, bool>? whereFunction)
         {
             
@@ -42,6 +47,11 @@ namespace AlphaBugTracker.DAL
         }
 
         public void Update(TicketComment? entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(int? id)
         {
             throw new NotImplementedException();
         }

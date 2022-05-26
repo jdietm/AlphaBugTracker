@@ -5,6 +5,7 @@ using AlphaBugTracker.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace AlphaBugTracker.Controllers
 {
@@ -32,8 +33,7 @@ namespace AlphaBugTracker.Controllers
         // GET: CommentController
         public ActionResult Index(int id)
         {
-            ViewBag.TicketId = id;  
-            return View(commentBL.ListComments_ByTicketId(id));
+            return View();
         }
 
         // GET: CommentController/Details/5
@@ -61,11 +61,17 @@ namespace AlphaBugTracker.Controllers
             TicketComment ticketComment = new TicketComment();
             ticketComment.Comment = collection["Comment"].ToString();
             ticketComment.UserCreator = currUser;
-            ticketComment.Ticket = ticketBL.Get(id);
 
+            //ticketComment.Ticket = ticketBL.Get(id);  // Getting the ticket but bnot assigned
+
+            Ticket ticketFound = ticketBL.Get(id);
+            ticketComment.Ticket = ticketFound;
+
+            //ticketComment.Ticket = ticketBL.GetTicketByFunc(t => t.Id == id);
             commentBL.AddTicketComment(ticketComment);
 
-            return RedirectToAction("Index", "Comment", new { id = id });
+
+            return RedirectToAction("Details", "Ticket", new { id = id });
            
         }
 

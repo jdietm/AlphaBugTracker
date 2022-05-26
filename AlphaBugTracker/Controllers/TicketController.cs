@@ -17,6 +17,7 @@ namespace AlphaBugTracker.Controllers
         private readonly ApplicationDbContext _globalContext;
         private TicketBusinessLogic ticketBL;
         private ProjectBusinessLogic projectBL;
+        private TicketHistoryBusinessLogic ticketHistoryBL;
 
 
 
@@ -24,6 +25,7 @@ namespace AlphaBugTracker.Controllers
         {
             ticketBL = new TicketBusinessLogic(new TicketRepository(_context));
             projectBL = new ProjectBusinessLogic(new ProjectRepository(_context));
+            ticketHistoryBL = new TicketHistoryBusinessLogic(new TicketHistoryRepository(_context));
             _userManager = userManager;
             _roleManager = roleManager;
             _globalContext = _context;
@@ -41,8 +43,8 @@ namespace AlphaBugTracker.Controllers
         // GET: TicketController/Details/5
         public ActionResult Details(int id)
         {
-            ViewBag.TicketId = id;
-            return View(ticketBL.Get(id));
+          
+            return View(ticketBL.GetTicketById(id));
         }
 
         // GET: TicketController/Create
@@ -111,7 +113,34 @@ namespace AlphaBugTracker.Controllers
         // GET: TicketController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            // Types
+            List<SelectListItem> types = new List<SelectListItem>
+            {
+                new SelectListItem(){ Text = "Incident", Value = TicketTypeCheck.Incident.ToString() },
+                new SelectListItem(){ Text = "LostRequest", Value = TicketTypeCheck.LostRequest.ToString() },
+                new SelectListItem(){ Text = "LostResponse", Value = TicketTypeCheck.LostResponse.ToString() },
+            };
+            ViewBag.TicketTypeId = types;
+
+            // Priorities
+            List<SelectListItem> priorities = new List<SelectListItem>
+            {
+                new SelectListItem(){ Text = "High", Value = TicketPriorityLevel.High.ToString() },
+                new SelectListItem(){ Text = "Medium", Value = TicketPriorityLevel.Medium.ToString() },
+                new SelectListItem(){ Text = "Low", Value = TicketPriorityLevel.Low.ToString() },
+            };
+            ViewBag.TicketPriorityId = priorities;
+
+            // Statues
+            List<SelectListItem> statues = new List<SelectListItem>
+            {
+                new SelectListItem(){ Text = "Assigned", Value = TicketStatus.Assigned.ToString() },
+                new SelectListItem(){ Text = "UnAssigned", Value = TicketStatus.UnAssigned.ToString() },
+                new SelectListItem(){ Text = "InProgress", Value = TicketStatus.InProgress.ToString() },
+                new SelectListItem(){ Text = "Completed", Value = TicketStatus.Completed.ToString() },
+            };
+            ViewBag.TicketStatusId = statues;
+            return View(ticketBL.GetTicketById(id));
         }
 
         // POST: TicketController/Edit/5
@@ -119,14 +148,32 @@ namespace AlphaBugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            Ticket ticket = ticketBL.GetTicketById(id);
+            //Clone to Log before update original
+            TicketHistory ticketHistory = new TicketHistory();
+            ticketHistory.Title = ticket.Title;
+            ticketHistory.Description = ticket.Description;
+            ticketHistory.CreatedDate = ticket.CreatedDate;
+            ticketHistory.UpdatedDate = ticket.UpdatedDate;
+            ticketHistory.Project = ticket.Project;
+            ticketHistory.TicketTypeId = ticket.TicketTypeId;
+            ticketHistory.TicketPriorityId = ticket.TicketPriorityId;
+            ticketHistory.TicketStatusId = ticket.TicketStatusId;
+            ticketHistory.OwnerUser = ticket.OwnerUser;
+            ticketHistory.AssignedToUser = ticket.AssignedToUser;
+            ticketHistory.Ticket = ticketBL.GetTicketByFunc(t => t.Id == id);
+            // Proceed to update
+            ticket.Title = collection["Title"].ToString();
+            ticket.Description = collection["Description"].ToString();
+            ticket.TicketTypeId = (TicketTypeCheck)Enum.Parse(typeof(TicketTypeCheck), collection["TicketTypeId"].ToString());
+            ticket.TicketPriorityId = (TicketPriorityLevel)Enum.Parse(typeof(TicketPriorityLevel), collection["TicketPriorityId"].ToString());
+            ticket.TicketStatusId = (TicketStatus)Enum.Parse(typeof(TicketStatus), collection["TicketStatusId"].ToString());
+            ticket.UpdatedDate = DateTime.Now;
+
+            ticketBL.Update();
+            ticketHistoryBL.AddTicketHistory(ticketHistory);
+
+            return RedirectToAction("Index", "Ticket");
         }
 
         // GET: TicketController/Delete/5

@@ -15,31 +15,36 @@ namespace AlphaBugTracker.DAL
 
         public void Create(Ticket? entity)
         {
-            _context.Ticket.Add(entity);
+            _context.Add(entity);
         }
 
         public void Delete(int? id)
         {
-            throw new NotImplementedException();
+            _context.Ticket.Remove(_context.Ticket.First(i => Equals(id)));
         }
 
         public Ticket? Get(Func<Ticket, bool>? firstFunction)
         {
-            Ticket ticket = _context.Ticket.Where(firstFunction).First();
+            Ticket ticket = _context.Ticket.First(firstFunction);
 
+            return ticket;
+        }
+
+        public Ticket? GetById(int? id)
+        {
+            Ticket ticket = _context.Ticket.Include(p => p.Project)
+                                           .Include(c => c.TicketComments)
+                                           .Include(a => a.TicketAttachments)
+                                           .Include(h => h.TicketHistories)
+                                           .First(t => t.Id.Equals(id));
             return ticket;
         }
 
         public ICollection<Ticket>? GetList(Func<Ticket, bool>? whereFunction)
         {
-            List<Ticket> Ticket = null;
-            if (whereFunction != null)
-            {
+            List<Ticket> tickets = _context.Ticket.Include(p => p.Project).Where(whereFunction).ToList();
 
-                Ticket = _context.Ticket.Include(p => p.Project).Where(whereFunction).ToList();
-
-            }
-            return Ticket;
+            return tickets;
         }
 
         public void Save()
@@ -47,7 +52,7 @@ namespace AlphaBugTracker.DAL
             _context.SaveChanges();
         }
 
-        public void Update(Ticket? entity)
+        public void Update(int? id)
         {
             throw new NotImplementedException();
         }

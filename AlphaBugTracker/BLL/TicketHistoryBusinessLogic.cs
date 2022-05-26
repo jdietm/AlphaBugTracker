@@ -3,39 +3,34 @@ using AlphaBugTracker.Models;
 
 namespace AlphaBugTracker.BLL
 {
-    public class TicketBusinessLogic
+    public class TicketHistoryBusinessLogic
     {
-        IRepository<Ticket> repo;
+        IRepository<TicketHistory> repo;
 
-        public TicketBusinessLogic(IRepository<Ticket> repoArg)
+        public TicketHistoryBusinessLogic(IRepository<TicketHistory> repoArg)
         {
             repo = repoArg;
         }
 
-        public List<Ticket> ListTickets_ByDefault()
+        public List<TicketHistory> ListTicketsHistory_ByDefault()
         {
             return repo.GetList(t => true).ToList();
         }
 
-        public Ticket GetTicketByFunc(Func<Ticket, bool> funcArg)
-        {
-            return repo.Get(funcArg);
-        }
-
-        public Ticket Get(int id)
+        public TicketHistory Get(int id)
         {
             return repo.Get(t => t.Id ==id);
         }
 
-        public Ticket GetTicketById(int id)
+        public TicketHistory GetTicketById(int id)
         {
             return repo.GetById(id);    
         }
 
 
-        public void AddTicket(Ticket ticket)
+        public void AddTicketHistory(TicketHistory ticketHistory)
         {
-            repo.Create(ticket);
+            repo.Create(ticketHistory);
             repo.Save();
         }
 

@@ -5,7 +5,7 @@ namespace AlphaBugTracker.Models
     public class TicketHistory
     {
         public int Id { get; set; }
-        public Ticket Ticket;
+        public Ticket Ticket { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
