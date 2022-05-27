@@ -17,7 +17,7 @@ namespace AlphaBugTracker.BLL
             return repo.GetList(t => true).ToList();
         }
 
-        public Ticket GetTicketByFunc(Func<Ticket, bool> funcArg)
+        public virtual Ticket GetTicketByFunc(Func<Ticket, bool> funcArg)
         {
             return repo.Get(funcArg);
         }

@@ -12,6 +12,10 @@ namespace AlphaBugTracker.DAL
         {
             _context = context;
         }
+        public TicketRepository()
+        {
+
+        }
 
         public void Create(Ticket? entity)
         {
@@ -30,7 +34,7 @@ namespace AlphaBugTracker.DAL
             return ticket;
         }
 
-        public Ticket? GetById(int? id)
+        public virtual Ticket? GetById(int? id)
         {
             Ticket ticket = _context.Ticket.Include(p => p.Project)
                                            .Include(c => c.TicketComments)
