@@ -32,5 +32,10 @@ namespace AlphaBugTracker.BLL
             return repo.Get(funcArg);
         }
 
+        public Project GetAProjectbyId(int id)
+        {
+            return repo.GetById(id);
+        }
+
     }
 }

@@ -12,6 +12,10 @@ namespace AlphaBugTracker.DAL
         {
             _context = context;
         }
+        public TicketHistoryRepository()
+        {
+
+        }
 
         public void Create(TicketHistory? entity)
         {
@@ -20,7 +24,7 @@ namespace AlphaBugTracker.DAL
 
         public void Delete(int? id)
         {
-            _context.Ticket.Remove(_context.Ticket.First(i => Equals(id)));
+            throw new NotImplementedException();  // We should not be able to delete a ticket history
         }
 
         public TicketHistory? Get(Func<TicketHistory, bool>? firstFunction)
@@ -28,9 +32,11 @@ namespace AlphaBugTracker.DAL
             throw new NotImplementedException();
         }
 
-        public TicketHistory? GetById(int? id)
+        public virtual TicketHistory? GetById(int? id)
         {
-            throw new NotImplementedException();
+            TicketHistory ticketHistory = _context.TicketHistory.First(t => t.Id.Equals(id));
+
+            return ticketHistory;
         }
 
         public ICollection<TicketHistory>? GetList(Func<TicketHistory, bool>? whereFunction)
@@ -45,7 +51,7 @@ namespace AlphaBugTracker.DAL
 
         public void Update(int? id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); // We should not be able to modify a ticket history
         }
     }
 }

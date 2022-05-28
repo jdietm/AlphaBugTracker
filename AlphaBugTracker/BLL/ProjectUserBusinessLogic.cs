@@ -18,10 +18,10 @@ namespace AlphaBugTracker.BLL
 
         public List<ProjectUser> ListProjectsUsers_ByProject(int id)
         {
-            return repo.GetList(u => u.Id == id ).ToList();
+            return repo.GetList(p => p.Project.Id == id ).ToList();
         }
 
-        public  void AddProject(ProjectUser projectUser)
+        public  void AddProjectUser(ProjectUser projectUser)
         {
             repo.Create(projectUser);
             repo.Save();

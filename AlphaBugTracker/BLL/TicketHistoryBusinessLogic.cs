@@ -22,7 +22,7 @@ namespace AlphaBugTracker.BLL
             return repo.Get(t => t.Id ==id);
         }
 
-        public TicketHistory GetTicketById(int id)
+        public virtual TicketHistory GetTicketHistoryById(int id)
         {
             return repo.GetById(id);    
         }

@@ -1,6 +1,7 @@
 ﻿using AlphaBugTracker.BLL;
 using AlphaBugTracker.DAL;
 using AlphaBugTracker.Data;
+using AlphaBugTracker.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,7 @@ namespace AlphaBugTracker.Controllers
         // GET: ProjectUserController
         public ActionResult Index(int id)
         {
+            ViewBag.ProjectId = id;
             return View(projectUSerBL.ListProjectsUsers_ByProject(id));
         }
 
@@ -43,24 +45,29 @@ namespace AlphaBugTracker.Controllers
         }
 
         // GET: ProjectUserController/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
+            ViewBag.ProjectId = id;
+            //List the users availables to assign to a project
+            List<IdentityUser> listOfUsers = _globalContext.Users.ToList();
+            ViewBag.ListOfUsers = listOfUsers;  
+
             return View();
         }
 
         // POST: ProjectUserController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreatePU(int projectId, string userName)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            Project project = projectBL.GetAProjectbyId(projectId);
+            IdentityUser currUser = await _userManager.FindByNameAsync(userName);
+            ProjectUser newProjectUser = new ProjectUser();
+            newProjectUser.Project = project;
+            newProjectUser.UserMember = currUser;
+            projectUSerBL.AddProjectUser(newProjectUser);
+
+            return RedirectToAction("Index", "ProjectUser", new { id = projectId });
         }
 
         // GET: ProjectUserController/Edit/5

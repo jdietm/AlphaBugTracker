@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Assign a User to Project ID @ViewBag.ProjectId</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                User
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in @ViewBag.ListOfUsers) {
+        <tr>
+            <td>
+               @item.UserName
+            </td>
+            <td>
+                <a asp-controller="ProjectUser"  asp-action="CreatePU" asp-route-projectId="@ViewBag.ProjectId" asp-route-userName="@item.UserName"> Assign this user</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

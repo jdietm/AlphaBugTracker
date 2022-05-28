@@ -7,11 +7,14 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-route-id="@ViewBag.ProjectId">Assign a new user</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                User
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -19,9 +22,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @item.UserMember
+            </td>
+            <td>
+                <a asp-controller="ProjectUser" asp-action="Delete" asp-route-id="@item.Id">Remove this user</a>
             </td>
         </tr>
 }

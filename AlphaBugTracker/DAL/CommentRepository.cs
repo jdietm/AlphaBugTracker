@@ -12,6 +12,10 @@ namespace AlphaBugTracker.DAL
         {
             _context = context;
         }
+        public CommentRepository()
+        {
+                
+        }
 
         public void Create(TicketComment? entity)
         {
@@ -20,7 +24,7 @@ namespace AlphaBugTracker.DAL
 
         public void Delete(int? id)
         {
-            throw new NotImplementedException();
+            _context.TicketComment.Remove(_context.TicketComment.First(i => Equals(id)));
         }
 
         public TicketComment? Get(Func<TicketComment, bool>? firstFunction)
@@ -28,9 +32,11 @@ namespace AlphaBugTracker.DAL
             throw new NotImplementedException();
         }
 
-        public TicketComment? GetById(int? id)
+        public virtual TicketComment? GetById(int? id)
         {
-            throw new NotImplementedException();
+            TicketComment ticketComment = _context.TicketComment.First(t => t.Id.Equals(id));
+
+            return ticketComment;   
         }
 
         public ICollection<TicketComment>? GetList(Func<TicketComment, bool>? whereFunction)
@@ -44,11 +50,6 @@ namespace AlphaBugTracker.DAL
         public void Save()
         {
             _context.SaveChanges();
-        }
-
-        public void Update(TicketComment? entity)
-        {
-            throw new NotImplementedException();
         }
 
         public void Update(int? id)

@@ -101,8 +101,8 @@ namespace AlphaBugTracker_UnitTest
                 AssignedToUser = currUser,
             };
 
-            Mock<CommentRepository> mockComment = new Mock<CommentRepository>();
-            TicketComment ticketComment = new TicketComment
+            Mock<CommentRepository> mockRepoComment = new Mock<CommentRepository>();
+            TicketComment mockTicketComment = new TicketComment
             {
                 Id = 11,
                 Ticket = mockTicket,
@@ -111,14 +111,70 @@ namespace AlphaBugTracker_UnitTest
                UserCreator = currUser,
 
             };
-            TicketBusinessLogic ticketBL = new TicketBusinessLogic(mockRepoTicket.Object);
+            CommentBusinessLogic commentBL = new CommentBusinessLogic(mockRepoComment.Object);
 
-            mockRepoTicket.Setup(repo => repo.GetById
-            (It.Is<int>(t => t == 1))).Returns(mockTicket);
+            mockRepoComment.Setup(repo => repo.GetById
+            (It.Is<int>(t => t == 1))).Returns(mockTicketComment);
 
-            var ticketFound = ticketBL.GetTicketById(1);
-            var ticketCommentFound = ticketFound.TicketComments.FirstOrDefault(c => c.Id == 11);
-            Assert.AreEqual(ticketCommentFound, mockComment);
+            
+            var ticketCommentFound = commentBL.GetById(1);
+            Assert.AreEqual(ticketCommentFound, mockTicketComment);
+
+        }
+
+        [TestMethod]
+        public void AddingATicketHistory()
+        {
+
+            IdentityUser currUser = new IdentityUser();
+            currUser.UserName = "Johnny";
+
+
+            Mock<ProjectRepository> mockRepoProject = new Mock<ProjectRepository>();
+            Project mockProject = new Project { Id = 1, Name = "Project 1 testing" };
+            
+            Mock<TicketRepository> mockRepoTicket = new Mock<TicketRepository>();
+            Ticket mockTicket = new Ticket
+            {
+                Id = 1,
+                Title = "Ticket 1 testing",
+                Description = "Ticket Description",
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now,
+                Project = mockProject,
+                TicketTypeId = 0,
+                TicketPriorityId = 0,
+                TicketStatusId = 0,
+                OwnerUser = currUser,
+                AssignedToUser = currUser,
+            };
+
+            Mock<TicketHistoryRepository> mockRepoHistory = new Mock<TicketHistoryRepository>();
+            TicketHistory mockHistory = new TicketHistory
+            {
+                Id = 1,
+                Ticket = mockTicket,
+                Title = "Ticket 1 testing",
+                Description = "Ticket Description",
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now,
+                Project = mockProject,
+                TicketTypeId = 0,
+                TicketPriorityId = 0,
+                TicketStatusId = 0,
+                OwnerUser = currUser,
+                AssignedToUser = currUser,
+            };
+
+        
+            TicketHistoryBusinessLogic historyBL = new TicketHistoryBusinessLogic(mockRepoHistory.Object);
+
+            mockRepoHistory.Setup(repo => repo.GetById
+            (It.Is<int>(t => t == 1))).Returns(mockHistory);
+
+
+            var ticketHistoryFound = historyBL.GetTicketHistoryById(1);
+            Assert.AreEqual(ticketHistoryFound, mockHistory);
 
         }
 

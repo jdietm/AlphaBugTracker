@@ -24,7 +24,7 @@ namespace AlphaBugTracker.DAL
 
         public void Delete(int? id)
         {
-            throw new NotImplementedException();
+            _context.Project.Remove(_context.Project.First(i => Equals(id)));
         }
 
         public virtual ProjectUser? Get(Func<ProjectUser, bool>? firstFunction)
@@ -43,7 +43,8 @@ namespace AlphaBugTracker.DAL
             if (whereFunction != null)
             {
 
-                ProjectUser = _context.ProjectUser.Where(whereFunction).ToList();
+                ProjectUser = _context.ProjectUser.Include(p => p.Project).                                            
+                                                  Where(whereFunction).ToList();
             }
             return ProjectUser;
         }
