@@ -1,8 +1,15 @@
-﻿namespace AlphaBugTracker.TICKET_UPGRADE_ZACH_INTERVIEW
-{
-    public class TicketUsingDesignPatterns
-    {
-    }
+﻿/*
+ * Commented to avoid erros/
+ */
+
+
+
+
+//namespace AlphaBugTracker.TICKET_UPGRADE_ZACH_INTERVIEW
+//{
+//    public class TicketUsingDesignPatterns
+//    {
+//    }
 
 //    /*
 //   Factory Pattern 

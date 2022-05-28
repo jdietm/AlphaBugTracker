@@ -32,5 +32,11 @@ namespace AlphaBugTracker.BLL
             return repo.Get(funcArg);
         }
 
+        public void RemoveUserFromProject (int id)
+        {
+            repo.Delete(id);
+            repo.Save();
+        }
+
     }
 }

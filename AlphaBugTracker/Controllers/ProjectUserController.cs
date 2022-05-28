@@ -92,24 +92,10 @@ namespace AlphaBugTracker.Controllers
         }
 
         // GET: ProjectUserController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, int projectId)
         {
-            return View();
-        }
-
-        // POST: ProjectUserController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            projectUSerBL.RemoveUserFromProject(id);
+            return RedirectToAction("Index", "ProjectUser", new { id = projectId });
         }
     }
 }

@@ -22,10 +22,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @item.UserMember
+                @item.UserMember.UserName
             </td>
             <td>
-                <a asp-controller="ProjectUser" asp-action="Delete" asp-route-id="@item.Id">Remove this user</a>
+                <a asp-controller="ProjectUser" asp-action="Delete" asp-route-id="@item.Id"  asp-route-projectId="@ViewBag.ProjectId" >Remove this user</a>
             </td>
         </tr>
 }
