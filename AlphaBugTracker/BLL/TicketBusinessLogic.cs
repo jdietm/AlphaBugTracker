@@ -17,9 +17,16 @@ namespace AlphaBugTracker.BLL
             return repo.GetList(t => true).ToList();
         }
 
-        public List<Ticket> ListTickets_ByCriteria(string criteria)
+        public List<Ticket> ListTickets_ByType(TicketTypeCheck ticketType)
         {
-            return repo.GetListOrdered(criteria).ToList();
+            return repo.GetList(t => t.TicketTypeId == ticketType).ToList();
+        }
+        
+
+
+        public List<Ticket> ListTickets_ByCriteria(string criteria, bool orderType)
+        {
+            return repo.GetListOrdered(criteria, orderType).ToList();
         }
         
         public virtual Ticket GetTicketByFunc(Func<Ticket, bool> funcArg)

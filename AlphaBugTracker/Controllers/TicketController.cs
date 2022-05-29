@@ -19,8 +19,6 @@ namespace AlphaBugTracker.Controllers
         private ProjectBusinessLogic projectBL;
         private TicketHistoryBusinessLogic ticketHistoryBL;
 
-
-
         public TicketController(ApplicationDbContext _context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             ticketBL = new TicketBusinessLogic(new TicketRepository(_context));
@@ -34,16 +32,51 @@ namespace AlphaBugTracker.Controllers
 
 
         // GET: TicketController
-        public ActionResult Index(string criteria)
+        public ActionResult Index(string ? criteria, TicketTypeCheck ? ticketTypeCheck )
         {
+
+            // Types
+            List<SelectListItem> types = new List<SelectListItem>
+            {
+                new SelectListItem(){ Text = "Incident", Value = TicketTypeCheck.Incident.ToString() },
+                new SelectListItem(){ Text = "LostRequest", Value = TicketTypeCheck.LostRequest.ToString() },
+                new SelectListItem(){ Text = "LostResponse", Value = TicketTypeCheck.LostResponse.ToString() },
+            };
+            ViewBag.TicketTypeId = types;
+
+            // Priorities
+            List<SelectListItem> priorities = new List<SelectListItem>
+            {
+                new SelectListItem(){ Text = "High", Value = TicketPriorityLevel.High.ToString() },
+                new SelectListItem(){ Text = "Medium", Value = TicketPriorityLevel.Medium.ToString() },
+                new SelectListItem(){ Text = "Low", Value = TicketPriorityLevel.Low.ToString() },
+            };
+            ViewBag.TicketPriorityId = priorities;
+
+            // Statues
+            List<SelectListItem> statues = new List<SelectListItem>
+            {
+                new SelectListItem(){ Text = "Assigned", Value = TicketStatus.Assigned.ToString() },
+                new SelectListItem(){ Text = "UnAssigned", Value = TicketStatus.UnAssigned.ToString() },
+                new SelectListItem(){ Text = "InProgress", Value = TicketStatus.InProgress.ToString() },
+                new SelectListItem(){ Text = "Completed", Value = TicketStatus.Completed.ToString() },
+            };
+            ViewBag.TicketStatusId = statues;
+
+            if (ticketTypeCheck != null)
+            {
+                return View(ticketBL.ListTickets_ByType(ticketTypeCheck.Value));
+            }
+
+
+
             if (criteria == "Default")
             {
                 return View(ticketBL.ListTickets_ByDefault());
                 
+
             }
-            return View(ticketBL.ListTickets_ByCriteria(criteria));
-
-
+            return View(ticketBL.ListTickets_ByCriteria(criteria, true));
 
         }
 

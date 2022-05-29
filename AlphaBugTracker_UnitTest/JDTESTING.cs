@@ -178,5 +178,14 @@ namespace AlphaBugTracker_UnitTest
 
         }
 
+        // Assign users to a project
+
+        // Assign users to a Ticket
+
+        // Remove a User from a Project
+        
+        // Remove a User from a Ticket
+
+
     }
 }

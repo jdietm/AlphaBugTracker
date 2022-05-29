@@ -3,7 +3,7 @@
     public interface IRepository<T> where T : class
     {
         ICollection<T>? GetList(Func<T, bool>? whereFunction);
-        ICollection<T>? GetListOrdered(string orderCriteria);
+        ICollection<T>? GetListOrdered(string orderCriteria, bool orderType); //true = Asc   false = Desc
         T? Get(Func<T, bool>? firstFunction);
         T? GetById(int? id);
         void Create(T? entity);

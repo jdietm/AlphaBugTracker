@@ -67,17 +67,19 @@ namespace AlphaBugTracker.DAL
             throw new NotImplementedException();
         }
 
-        public ICollection<Ticket>? GetListOrdered(string orderCriteria)
+        public ICollection<Ticket>? GetListOrdered(string orderCriteria, bool orderType)
         {
             
             if (orderCriteria == "Project") 
             {
-                List<Ticket> tickets = _context.Ticket.Include(p => p.Project)
+               
+                    List<Ticket> tickets = _context.Ticket.Include(p => p.Project)
                                                     .Include(u => u.AssignedToUser)
                                                     .Include(o => o.OwnerUser)
                                                     .OrderBy(o => o.Project.Name)
                                                     .ToList();
-                return tickets;
+                    return tickets;
+               
             } else if (orderCriteria == "Owner")
             {
                 List<Ticket> tickets = _context.Ticket.Include(p => p.Project)

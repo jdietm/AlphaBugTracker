@@ -55,7 +55,7 @@ namespace AlphaBugTracker.DAL
             throw new NotImplementedException(); // We should not be able to modify a ticket history
         }
 
-        public ICollection<TicketHistory>? GetListOrdered(string orderCriteria)
+        public ICollection<TicketHistory>? GetListOrdered(string orderCriteria, bool orderType)
         {
             throw new NotImplementedException();
         }
