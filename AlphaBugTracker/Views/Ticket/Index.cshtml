@@ -4,23 +4,23 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Tickets</h1>
 
 <p>
     <a asp-action="Index" asp-controller="Project"  >Create a New Ticket for a Project</a>
 </p>
 
-<form asp-action = "Index" method="get"> 
+<form  asp-action = "Index" method="get" > 
      Type: <select name="ticketTypeCheck" asp-items="@ViewBag.TicketTypeId">  </select>
      <button type="submit">Filter</button>    
 </form>
 <p> </p>
-<form asp-action = "Index" method="get"> 
+<form  asp-action = "Index" method="get"> 
      Priority: <select name="ticketPriority" asp-items="@ViewBag.TicketPriorityId">  </select>
      <button type="submit">Filter</button>    
 </form>
 <p> </p>
-<form asp-action = "Index" method="get"> 
+<form  asp-action = "Index" method="get"> 
      Priority: <select name="ticketStatus" asp-items="@ViewBag.TicketStatusId">  </select>
      <button type="submit">Filter</button>    
 </form>
