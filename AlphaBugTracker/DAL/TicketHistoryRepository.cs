@@ -34,7 +34,8 @@ namespace AlphaBugTracker.DAL
 
         public virtual TicketHistory? GetById(int? id)
         {
-            TicketHistory ticketHistory = _context.TicketHistory.First(t => t.Id.Equals(id));
+            TicketHistory ticketHistory = _context.TicketHistory.Include(u=> u.AssignedToUser).
+                                          First(t => t.Id.Equals(id));
 
             return ticketHistory;
         }

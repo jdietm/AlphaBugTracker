@@ -196,5 +196,44 @@ namespace AlphaBugTracker.Controllers
                 return View();
             }
         }
+
+
+        public ActionResult SelectUserToassign(int ticketId)
+        {
+            ViewBag.TicketId = ticketId;
+            //List the users availables to assign to a project
+            List<IdentityUser> listOfUsers = _globalContext.Users.ToList();
+            ViewBag.ListOfUsers = listOfUsers;
+            return View("AssignUser");
+        }
+        public async Task<ActionResult> AssignUser(int ticketId, string userName)
+        {
+            Ticket ticket = ticketBL.GetTicketById(ticketId);
+            //Clone to Log before update original
+            TicketHistory ticketHistory = new TicketHistory();
+            ticketHistory.Title = ticket.Title;
+            ticketHistory.Description = ticket.Description;
+            ticketHistory.CreatedDate = ticket.CreatedDate;
+            ticketHistory.UpdatedDate = ticket.UpdatedDate;
+            ticketHistory.Project = ticket.Project;
+            ticketHistory.TicketTypeId = ticket.TicketTypeId;
+            ticketHistory.TicketPriorityId = ticket.TicketPriorityId;
+            ticketHistory.TicketStatusId = ticket.TicketStatusId;
+            ticketHistory.OwnerUser = ticket.OwnerUser;
+            ticketHistory.AssignedToUser = ticket.AssignedToUser;
+            ticketHistory.Ticket = ticketBL.GetTicketByFunc(t => t.Id == ticketId);
+            ticketHistoryBL.AddTicketHistory(ticketHistory);
+
+            //Proceed to assign the user
+            IdentityUser currUser = await _userManager.FindByNameAsync(userName);
+           
+            ticket.AssignedToUser = currUser;
+            ticketBL.Update();
+
+
+            return RedirectToAction("Details", "Ticket", new { id = ticketId });
+        }
+
+
     }
 }

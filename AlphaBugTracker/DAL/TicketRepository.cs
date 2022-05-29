@@ -40,6 +40,8 @@ namespace AlphaBugTracker.DAL
                                            .Include(c => c.TicketComments)
                                            .Include(a => a.TicketAttachments)
                                            .Include(h => h.TicketHistories)
+                                           .Include(u => u.AssignedToUser)
+                                           .Include(o => o.OwnerUser)
                                            .First(t => t.Id.Equals(id));
             return ticket;
         }

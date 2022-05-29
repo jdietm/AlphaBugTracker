@@ -97,5 +97,8 @@ namespace AlphaBugTracker.Controllers
             projectUSerBL.RemoveUserFromProject(id);
             return RedirectToAction("Index", "ProjectUser", new { id = projectId });
         }
+
+
+
     }
 }
