@@ -57,5 +57,10 @@ namespace AlphaBugTracker.DAL
         {
             throw new NotImplementedException();
         }
+
+        public ICollection<Project>? GetListOrdered(string orderCriteria)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

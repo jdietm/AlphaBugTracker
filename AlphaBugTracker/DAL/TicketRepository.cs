@@ -48,7 +48,11 @@ namespace AlphaBugTracker.DAL
 
         public ICollection<Ticket>? GetList(Func<Ticket, bool>? whereFunction)
         {
-            List<Ticket> tickets = _context.Ticket.Include(p => p.Project).Where(whereFunction).ToList();
+            List<Ticket> tickets = _context.Ticket.Include(p => p.Project)
+                                                  .Include(u => u.AssignedToUser)
+                                                  .Include(o => o.OwnerUser)
+                                                  .Where(whereFunction)
+                                                  .ToList();
 
             return tickets;
         }
@@ -61,6 +65,30 @@ namespace AlphaBugTracker.DAL
         public void Update(int? id)
         {
             throw new NotImplementedException();
+        }
+
+        public ICollection<Ticket>? GetListOrdered(string orderCriteria)
+        {
+            
+            if (orderCriteria == "Project") 
+            {
+                List<Ticket> tickets = _context.Ticket.Include(p => p.Project)
+                                                    .Include(u => u.AssignedToUser)
+                                                    .Include(o => o.OwnerUser)
+                                                    .OrderBy(o => o.Project.Name)
+                                                    .ToList();
+                return tickets;
+            } else
+            {
+                List<Ticket> tickets = _context.Ticket.Include(p => p.Project)
+                                                    .Include(u => u.AssignedToUser)
+                                                    .Include(o => o.OwnerUser)
+                                                    .OrderBy(o => o.Project.Name)
+                                                    .ToList();
+                return tickets;
+            }
+            
+            
         }
     }
 }

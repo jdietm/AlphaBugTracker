@@ -34,7 +34,7 @@ namespace AlphaBugTracker.DAL
 
         public virtual TicketHistory? GetById(int? id)
         {
-            TicketHistory ticketHistory = _context.TicketHistory.Include(u=> u.AssignedToUser).
+            TicketHistory ticketHistory = _context.TicketHistory.Include(u => u.AssignedToUser).
                                           First(t => t.Id.Equals(id));
 
             return ticketHistory;
@@ -53,6 +53,11 @@ namespace AlphaBugTracker.DAL
         public void Update(int? id)
         {
             throw new NotImplementedException(); // We should not be able to modify a ticket history
+        }
+
+        public ICollection<TicketHistory>? GetListOrdered(string orderCriteria)
+        {
+            throw new NotImplementedException();
         }
     }
 }

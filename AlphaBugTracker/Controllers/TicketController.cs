@@ -34,10 +34,17 @@ namespace AlphaBugTracker.Controllers
 
 
         // GET: TicketController
-        public ActionResult Index()
+        public ActionResult Index(string criteria)
         {
+            if (criteria == "Default")
+            {
+                return View(ticketBL.ListTickets_ByDefault());
+                
+            }
+            return View(ticketBL.ListTickets_ByCriteria(criteria));
 
-            return View(ticketBL.ListTickets_ByDefault());
+
+
         }
 
         // GET: TicketController/Details/5
@@ -233,7 +240,5 @@ namespace AlphaBugTracker.Controllers
 
             return RedirectToAction("Details", "Ticket", new { id = ticketId });
         }
-
-
     }
 }
