@@ -21,6 +21,15 @@ namespace AlphaBugTracker.BLL
         {
             return repo.GetList(t => t.TicketTypeId == ticketType).ToList();
         }
+
+        public List<Ticket> ListTickets_ByPriority(TicketPriorityLevel ticketPriority)
+        {
+            return repo.GetList(t => t.TicketPriorityId == ticketPriority).ToList();
+        }
+        public List<Ticket> ListTickets_ByStatus(TicketStatus ticketSatus)
+        {
+            return repo.GetList(t => t.TicketStatusId == ticketSatus).ToList();
+        }
         
 
 

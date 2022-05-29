@@ -32,7 +32,7 @@ namespace AlphaBugTracker.Controllers
 
 
         // GET: TicketController
-        public ActionResult Index(string ? criteria, TicketTypeCheck ? ticketTypeCheck )
+        public ActionResult Index(string ? criteria, TicketTypeCheck ? ticketTypeCheck, TicketPriorityLevel ? ticketPriority, TicketStatus? ticketStatus)
         {
 
             // Types
@@ -63,13 +63,20 @@ namespace AlphaBugTracker.Controllers
             };
             ViewBag.TicketStatusId = statues;
 
+            // Filters
             if (ticketTypeCheck != null)
             {
                 return View(ticketBL.ListTickets_ByType(ticketTypeCheck.Value));
             }
-
-
-
+            if (ticketPriority != null)
+            {
+                return View(ticketBL.ListTickets_ByPriority(ticketPriority.Value));
+            }
+            if (ticketStatus != null)
+            {
+                return View(ticketBL.ListTickets_ByStatus(ticketStatus.Value));
+            }
+            // OrderBy
             if (criteria == "Default")
             {
                 return View(ticketBL.ListTickets_ByDefault());

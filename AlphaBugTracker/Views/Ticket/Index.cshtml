@@ -14,11 +14,16 @@
      Type: <select name="ticketTypeCheck" asp-items="@ViewBag.TicketTypeId">  </select>
      <button type="submit">Filter</button>    
 </form>
-
-
-
-
-
+<p> </p>
+<form asp-action = "Index" method="get"> 
+     Priority: <select name="ticketPriority" asp-items="@ViewBag.TicketPriorityId">  </select>
+     <button type="submit">Filter</button>    
+</form>
+<p> </p>
+<form asp-action = "Index" method="get"> 
+     Priority: <select name="ticketStatus" asp-items="@ViewBag.TicketStatusId">  </select>
+     <button type="submit">Filter</button>    
+</form>
 
 <table class="table">
     <thead>
