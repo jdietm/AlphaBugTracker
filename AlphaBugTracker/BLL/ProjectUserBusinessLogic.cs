@@ -16,12 +16,19 @@ namespace AlphaBugTracker.BLL
 
         }
 
-        public List<ProjectUser> ListProjectsUsers_ByProject(int id)
+        public virtual List<ProjectUser> ListProjectsUsers_ByProject(int id)
         {
             return repo.GetList(p => p.Project.Id == id ).ToList();
         }
 
-        public  void AddProjectUser(ProjectUser projectUser)
+        public virtual List<ProjectUser> ListProjectsUsers_ByProjectFunc(Func<ProjectUser, bool>? whereFunction)
+        {
+            return repo.GetList(whereFunction).ToList();
+        }
+
+
+
+        public void AddProjectUser(ProjectUser projectUser)
         {
             repo.Create(projectUser);
             repo.Save();
@@ -32,7 +39,7 @@ namespace AlphaBugTracker.BLL
             return repo.Get(funcArg);
         }
 
-        public void RemoveUserFromProject (int id)
+        public virtual void RemoveUserFromProject (int id)
         {
             repo.Delete(id);
             repo.Save();

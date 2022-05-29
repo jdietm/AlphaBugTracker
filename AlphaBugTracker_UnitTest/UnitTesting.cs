@@ -10,13 +10,16 @@ using AlphaBugTracker.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace AlphaBugTracker_UnitTest
 {
     [TestClass]
-    public class JDTESTING
+    public class UnitTesting
     {
         Func<Project, bool> testFunc;
+        Func<ProjectUser, bool> testFuncPU;
+        private int id = 1;
 
         [TestMethod]
         public void AddingAProject()
@@ -43,7 +46,7 @@ namespace AlphaBugTracker_UnitTest
         {
 
             IdentityUser currUser = new IdentityUser();
-            currUser.UserName = "Johnny";
+            currUser.UserName = "Sahil";
 
 
             Mock<ProjectRepository> mockRepoProject = new Mock<ProjectRepository>();
@@ -79,7 +82,7 @@ namespace AlphaBugTracker_UnitTest
         {
 
             IdentityUser currUser = new IdentityUser();
-            currUser.UserName = "Johnny";
+            currUser.UserName = "Omkar";
 
 
             Mock<ProjectRepository> mockRepoProject = new Mock<ProjectRepository>();
@@ -127,7 +130,7 @@ namespace AlphaBugTracker_UnitTest
         {
 
             IdentityUser currUser = new IdentityUser();
-            currUser.UserName = "Johnny";
+            currUser.UserName = "Md";
 
 
             Mock<ProjectRepository> mockRepoProject = new Mock<ProjectRepository>();
@@ -180,12 +183,37 @@ namespace AlphaBugTracker_UnitTest
 
         // Assign users to a project
 
-        // Assign users to a Ticket
+        [TestMethod]
+        public void AssignAUserToAProject()
+        {
 
-        // Remove a User from a Project
-        
-        // Remove a User from a Ticket
+            IdentityUser currUser1 = new IdentityUser();
+            currUser1.UserName = "Johnny";
+            IdentityUser currUser2 = new IdentityUser();
+            currUser2.UserName = "Omkar";
+
+            Mock<ProjectRepository> mockRepoProject = new Mock<ProjectRepository>();
+            Project mockProject = new Project { Id = 1, Name = "Project 1 testing" };
+
+            Mock<ProjectUserRepository> mockRepoProjectUser = new Mock<ProjectUserRepository>();
+            List<ProjectUser> mockListProjectUser = new  List<ProjectUser>() { 
+            
+                new ProjectUser() { Id = 1,  Project = mockProject,   UserMember = currUser1 },
+                new ProjectUser() { Id = 2,  Project = mockProject,   UserMember = currUser2 }
+            };
 
 
+            ProjectUserBusinessLogic projectUserBL = new ProjectUserBusinessLogic(mockRepoProjectUser.Object);
+
+            testFuncPU = f => f.Project.Id == 1;
+
+            mockRepoProjectUser.Setup(repo => repo.GetList
+            (It.Is<Func<ProjectUser, bool>>(f => f == testFuncPU))).Returns(mockListProjectUser);
+
+            List<ProjectUser> listPUfound = projectUserBL.ListProjectsUsers_ByProjectFunc(testFuncPU);
+
+            Assert.AreEqual(listPUfound.Count, mockListProjectUser.Count);
+
+        }
     }
 }

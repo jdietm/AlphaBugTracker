@@ -22,7 +22,7 @@ namespace AlphaBugTracker.DAL
             _context.ProjectUser.Add(entity);
         }
 
-        public void Delete(int? id)
+        public virtual void Delete(int? id)
         {
             ProjectUser projectUserDel = _context.ProjectUser.First(pu => pu.Id == id);
             _context.ProjectUser.Remove(projectUserDel);
@@ -38,7 +38,7 @@ namespace AlphaBugTracker.DAL
             throw new NotImplementedException();
         }
 
-        public ICollection<ProjectUser>? GetList(Func<ProjectUser, bool>? whereFunction)
+        public virtual ICollection<ProjectUser>? GetList(Func<ProjectUser, bool>? whereFunction)
         {
             List<ProjectUser> ProjectUser = null;
             if (whereFunction != null)
