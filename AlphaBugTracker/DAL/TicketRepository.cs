@@ -78,12 +78,28 @@ namespace AlphaBugTracker.DAL
                                                     .OrderBy(o => o.Project.Name)
                                                     .ToList();
                 return tickets;
+            } else if (orderCriteria == "Owner")
+            {
+                List<Ticket> tickets = _context.Ticket.Include(p => p.Project)
+                                                    .Include(u => u.AssignedToUser)
+                                                    .Include(o => o.OwnerUser)
+                                                    .OrderBy(o => o.OwnerUser.UserName)
+                                                    .ToList();
+                return tickets;
+            } else if (orderCriteria == "Assigned")
+            {
+                List<Ticket> tickets = _context.Ticket.Include(p => p.Project)
+                                                    .Include(u => u.AssignedToUser)
+                                                    .Include(o => o.OwnerUser)
+                                                    .OrderBy(o => o.AssignedToUser.UserName)
+                                                    .ToList();
+                return tickets;
             } else
             {
                 List<Ticket> tickets = _context.Ticket.Include(p => p.Project)
                                                     .Include(u => u.AssignedToUser)
                                                     .Include(o => o.OwnerUser)
-                                                    .OrderBy(o => o.Project.Name)
+             
                                                     .ToList();
                 return tickets;
             }
